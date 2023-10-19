@@ -1,6 +1,10 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/jetstream/compare/v4.0.3...4.x)
+## [Unreleased](https://github.com/laravel/jetstream/compare/v4.0.4...4.x)
+
+## [v4.0.4](https://github.com/laravel/jetstream/compare/v4.0.3...v4.0.4) - 2023-10-19
+
+**Full Changelog**: https://github.com/sumonst21/jetstream/compare/v2.3.15...v4.0.4
 
 ## [v4.0.3](https://github.com/laravel/jetstream/compare/v4.0.2...v4.0.3) - 2023-10-02
 
