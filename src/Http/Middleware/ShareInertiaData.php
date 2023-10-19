@@ -24,9 +24,9 @@ class ShareInertiaData
                 $user = $request->user();
 
                 return [
-                    'canCreateTeams' => $user &&
-                                        Jetstream::userHasTeamFeatures($user) &&
-                                        Gate::forUser($user)->check('create', Jetstream::newTeamModel()),
+                    'canCreateOrganizations' => $user &&
+                                        Jetstream::userHasOrganizationFeatures($user) &&
+                                        Gate::forUser($user)->check('create', Jetstream::newOrganizationModel()),
                     'canManageTwoFactorAuthentication' => Features::canManageTwoFactorAuthentication(),
                     'canUpdatePassword' => Features::enabled(Features::updatePasswords()),
                     'canUpdateProfileInformation' => Features::canUpdateProfileInformation(),
@@ -34,7 +34,7 @@ class ShareInertiaData
                     'flash' => $request->session()->get('flash', []),
                     'hasAccountDeletionFeatures' => Jetstream::hasAccountDeletionFeatures(),
                     'hasApiFeatures' => Jetstream::hasApiFeatures(),
-                    'hasTeamFeatures' => Jetstream::hasTeamFeatures(),
+                    'hasOrganizationFeatures' => Jetstream::hasOrganizationFeatures(),
                     'hasTermsAndPrivacyPolicyFeature' => Jetstream::hasTermsAndPrivacyPolicyFeature(),
                     'managesProfilePhotos' => Jetstream::managesProfilePhotos(),
                 ];
@@ -45,14 +45,14 @@ class ShareInertiaData
                         return;
                     }
 
-                    $userHasTeamFeatures = Jetstream::userHasTeamFeatures($user);
+                    $userHasOrganizationFeatures = Jetstream::userHasOrganizationFeatures($user);
 
-                    if ($user && $userHasTeamFeatures) {
-                        $user->currentTeam;
+                    if ($user && $userHasOrganizationFeatures) {
+                        $user->currentOrganization;
                     }
 
                     return array_merge($user->toArray(), array_filter([
-                        'all_teams' => $userHasTeamFeatures ? $user->allTeams()->values() : null,
+                        'all_organizations' => $userHasOrganizationFeatures ? $user->allOrganizations()->values() : null,
                     ]), [
                         'two_factor_enabled' => Features::enabled(Features::twoFactorAuthentication())
                             && ! is_null($user->two_factor_secret),

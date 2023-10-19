@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\Team;
+use App\Models\Organization;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
@@ -29,7 +29,7 @@ class UserFactory extends Factory
             'two_factor_recovery_codes' => null,
             'remember_token' => Str::random(10),
             'profile_photo_path' => null,
-            'current_team_id' => null,
+            'current_organization_id' => null,
         ];
     }
 
@@ -46,23 +46,23 @@ class UserFactory extends Factory
     }
 
     /**
-     * Indicate that the user should have a personal team.
+     * Indicate that the user should have a personal organization.
      */
-    public function withPersonalTeam(callable $callback = null): static
+    public function withPersonalOrganization(callable $callback = null): static
     {
-        if (! Features::hasTeamFeatures()) {
+        if (! Features::hasOrganizationFeatures()) {
             return $this->state([]);
         }
 
         return $this->has(
-            Team::factory()
+            Organization::factory()
                 ->state(fn (array $attributes, User $user) => [
-                    'name' => $user->name.'\'s Team',
+                    'name' => $user->name.'\'s Organization',
                     'user_id' => $user->id,
-                    'personal_team' => true,
+                    'personal_organization' => true,
                 ])
                 ->when(is_callable($callback), $callback),
-            'ownedTeams'
+            'ownedOrganizations'
         );
     }
 }
