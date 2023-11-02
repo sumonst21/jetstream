@@ -19,11 +19,11 @@ abstract class OrchestraTestCase extends TestCase
         $app['config']->set('database.default', 'testing');
     }
 
-    protected function defineHasTeamEnvironment($app)
+    protected function defineHasOrganizationEnvironment($app)
     {
         $features = $app->config->get('jetstream.features', []);
 
-        $features[] = Features::teams(['invitations' => true]);
+        $features[] = Features::organizations(['invitations' => true]);
 
         $app->config->set('jetstream.features', $features);
     }
