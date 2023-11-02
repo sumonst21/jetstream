@@ -2,27 +2,27 @@
 
 namespace Laravel\Jetstream\Tests;
 
-use App\Actions\Jetstream\CreateTeam;
-use App\Models\Team;
+use App\Actions\Jetstream\CreateOrganization;
+use App\Models\Organization;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\ValidationException;
 use Laravel\Jetstream\Jetstream;
-use Laravel\Jetstream\Tests\Fixtures\TeamPolicy;
+use Laravel\Jetstream\Tests\Fixtures\OrganizationPolicy;
 use Laravel\Jetstream\Tests\Fixtures\User;
 
-class CreateTeamTest extends OrchestraTestCase
+class CreateOrganizationTest extends OrchestraTestCase
 {
     protected function defineEnvironment($app)
     {
         parent::defineEnvironment($app);
 
-        Gate::policy(Team::class, TeamPolicy::class);
+        Gate::policy(Organization::class, OrganizationPolicy::class);
         Jetstream::useUserModel(User::class);
     }
 
-    public function test_team_name_can_be_updated()
+    public function test_organization_name_can_be_updated()
     {
-        $action = new CreateTeam;
+        $action = new CreateOrganization;
 
         $user = User::forceCreate([
             'name' => 'Taylor Otwell',
@@ -30,16 +30,16 @@ class CreateTeamTest extends OrchestraTestCase
             'password' => 'secret',
         ]);
 
-        $team = $action->create($user, ['name' => 'Test Team']);
+        $organization = $action->create($user, ['name' => 'Test Organization']);
 
-        $this->assertInstanceOf(Team::class, $team);
+        $this->assertInstanceOf(Organization::class, $organization);
     }
 
     public function test_name_is_required()
     {
         $this->expectException(ValidationException::class);
 
-        $action = new CreateTeam;
+        $action = new CreateOrganization;
 
         $user = User::forceCreate([
             'name' => 'Taylor Otwell',
